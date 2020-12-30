@@ -6,6 +6,8 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 public class ConnectionSingleton {
 	public static String serverResponse;
@@ -23,7 +25,7 @@ public class ConnectionSingleton {
         return instance;
     }
     
-    public String get(String command, Object obj) {
+    public JsonObject get(String command, Object obj) {
     	String payload = new Gson().toJson(obj);
     	System.out.println("Sending command to server with data: " + payload);
     	SocketClientCallable commandWithSocket = new SocketClientCallable(HOSTNAME, PORT, command, payload);
@@ -37,7 +39,8 @@ public class ConnectionSingleton {
 		}
 		
 		System.out.println("Connection to server terminated");
-    	return serverResponse;
+		JsonObject jsonObject = new JsonParser().parse(serverResponse).getAsJsonObject();
+    	return jsonObject;
     }
     
     public void shutdown() {

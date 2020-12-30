@@ -2,24 +2,81 @@ package controllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
+import javafx.stage.Stage;
+
+import java.io.IOException;
+
+import com.google.gson.JsonObject;
+
 
 import application.ConnectionSingleton;
 
 public class Login {
+	
 	@FXML
-	private Button showUsers;
-
+	private Button btnLogin;
+	
+	@FXML
+	private TextField userName;
+	
+	@FXML
+	private PasswordField password;
+	
+	@FXML
+	private Label infoLabel;
+	
 	@FXML
 	void initialize() {
 		System.out.println("Login is running!");
-
 	}
 
 	@FXML
-	private void onShowUsersButtonClick(ActionEvent event) {
-		System.out.println("Show Users Btn click");
-		ConnectionSingleton.getInstance().get("login", "test");
+	private void onClickLogin(ActionEvent event) {
+		System.out.println("Login btn click");
+		JsonObject loginInfoJson = new JsonObject();
+		loginInfoJson.addProperty("userName", this.userName.getText());
+		loginInfoJson.addProperty("password", this.password.getText());
+		JsonObject serverResponse = ConnectionSingleton.getInstance().get("login", loginInfoJson);
+		System.out.println("Raspuns " + serverResponse);
+		if(serverResponse == null) {
+			infoLabel.setText("Null error!");
+			return;
+		}
+
+		if(serverResponse.has("message")) {
+			infoLabel.setText(serverResponse.get("message").getAsString());
+		}
+		if(serverResponse.has("userRole")) {
+			if(serverResponse.get("userRole").getAsString().equals("user")) {
+				this.openView("UserView.fxml");
+			}
+		}
+	}
+	
+	private void openView(String viewName) {
+        Parent root;
+        try {
+            root = FXMLLoader.load(getClass().getResource("/view/" + viewName));
+            Stage stage = new Stage();
+            stage.setTitle("Interfata Biblioteca");
+            stage.setScene(new Scene(root, 600, 400));
+            stage.setResizable(false);
+            // close login window
+            Stage loginStage = (Stage) btnLogin.getScene().getWindow();
+            loginStage.close();
+            //open new view
+            stage.show();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
 	}
 
 }

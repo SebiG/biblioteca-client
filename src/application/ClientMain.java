@@ -19,7 +19,7 @@ public class ClientMain extends Application {
 			Scene scene = new Scene(root);
 			scene.getStylesheets().add(getClass().getResource("/application/application.css").toExternalForm());
 			primaryStage.setScene(scene);
-			primaryStage.setTitle("Biblioteca | Login");
+			primaryStage.setTitle("Biblioteca Demo | Login");
 			primaryStage.show();
 		} catch(Exception e) {
 			e.printStackTrace();
