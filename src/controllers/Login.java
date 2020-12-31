@@ -12,11 +12,13 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.List;
 
 import com.google.gson.JsonObject;
 
 
 import application.ConnectionSingleton;
+import application.HelperClass;
 
 public class Login {
 	
@@ -40,10 +42,11 @@ public class Login {
 	@FXML
 	private void onClickLogin(ActionEvent event) {
 		System.out.println("Login btn click");
-		JsonObject loginInfoJson = new JsonObject();
-		loginInfoJson.addProperty("userName", this.userName.getText());
-		loginInfoJson.addProperty("password", this.password.getText());
-		JsonObject serverResponse = ConnectionSingleton.getInstance().get("login", loginInfoJson);
+		JsonObject obj = HelperClass.buildJsonObj(List.of(
+			"userName", this.userName.getText(),
+			"password", this.password.getText()
+		));
+		JsonObject serverResponse = ConnectionSingleton.getInstance().get("login", obj);
 		System.out.println("Raspuns " + serverResponse);
 		if(serverResponse == null) {
 			infoLabel.setText("Null error!");
