@@ -10,6 +10,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import models.User;
 
 import java.io.IOException;
 import java.util.List;
@@ -46,10 +47,15 @@ public class Login {
 			"userName", this.userName.getText(),
 			"password", this.password.getText()
 		));
-		JsonObject serverResponse = ConnectionSingleton.getInstance().get("login", obj);
+		JsonObject serverResponse = null;
+		try {
+			serverResponse = ConnectionSingleton.getInstance().get("login", obj);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		System.out.println("Raspuns " + serverResponse);
 		if(serverResponse == null) {
-			infoLabel.setText("Null error!");
+			infoLabel.setText("Null error (login)!");
 			return;
 		}
 
@@ -57,20 +63,30 @@ public class Login {
 			infoLabel.setText(serverResponse.get("message").getAsString());
 		}
 		if(serverResponse.has("userRole")) {
+			User u = new User();
+			u.setUserID(serverResponse.get("userID").getAsInt());
+			u.setUserName(serverResponse.get("userName").getAsString());
 			if(serverResponse.get("userRole").getAsString().equals("user")) {
-				this.openView("UserView.fxml");
+				u.setRole("user");
+				this.openView("UserView.fxml", u);
+			}
+			if(serverResponse.get("userRole").getAsString().equals("admin")) {
+				u.setRole("admin");
+//				this.openView("UserView.fxml", u);
 			}
 		}
 	}
 	
-	private void openView(String viewName) {
+	private void openView(String viewName, User user) {
         Parent root;
         try {
-            root = FXMLLoader.load(getClass().getResource("/view/" + viewName));
+        	FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/" + viewName));
+            root = loader.load();
             Stage stage = new Stage();
-            stage.setTitle("Interfata Biblioteca");
+            stage.setTitle("Interfata Biblioteca - " + user.getUserName());
             stage.setScene(new Scene(root, 600, 400));
             stage.setResizable(false);
+            stage.setUserData(user);
             // close login window
             Stage loginStage = (Stage) btnLogin.getScene().getWindow();
             loginStage.close();
