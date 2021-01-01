@@ -1,8 +1,17 @@
 package application;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.lang.reflect.Type;
 import java.util.List;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonElement;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 public class HelperClass {
 
@@ -12,5 +21,46 @@ public class HelperClass {
 			obj.addProperty(list.get(i), list.get(i+1));
 		}
 		return obj;
+	}
+	public static JsonObject buildJsonObj(String str) {
+		Gson gson = new Gson();
+		JsonObject obj = gson.fromJson(str, null);
+		return obj;
+	}
+	
+	public static void puts(String s) {
+		System.out.println(s);
+	}
+	
+	//generic Observable List generator
+	public static <T> ObservableList<T> toObservableList(JsonArray serverResponse, Type tClass) {
+		ObservableList<T> list = FXCollections.observableArrayList();
+		Gson gson = new Gson();
+		for(JsonElement jelement: serverResponse) {
+	        T obj = gson.fromJson(jelement, tClass);
+	        try {
+	        	//use reflection to execute initialize method
+				Method m = obj.getClass().getMethod("initialize"); 
+				m.invoke(obj);
+			} catch (NoSuchMethodException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (SecurityException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IllegalArgumentException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (InvocationTargetException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			list.add(obj);
+		}
+		return list;
 	}
 }
