@@ -6,6 +6,8 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
@@ -25,22 +27,49 @@ public class ConnectionSingleton {
         return instance;
     }
     
-    public JsonObject get(String command, Object obj) {
+    private SocketClientCallable getCommandWithSocket(String command, Object obj) {
     	String payload = new Gson().toJson(obj);
     	System.out.println("Sending command to server with data: " + payload);
     	SocketClientCallable commandWithSocket = new SocketClientCallable(HOSTNAME, PORT, command, payload);
-    	Future<String> response = es.submit(commandWithSocket);
+    	return commandWithSocket;
+    }
+    
+    public JsonObject get(String command, Object obj) throws Exception {
+    	Future<String> response = es.submit(getCommandWithSocket(command, obj));
 		try {
 			// Blocking this thread until the server responds
 			serverResponse = response.get();
-			System.out.println("Response from server is : " + serverResponse);
+			System.out.println("Response from server is: " + serverResponse);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
-		System.out.println("Connection to server terminated");
-		JsonObject jsonObject = new JsonParser().parse(serverResponse).getAsJsonObject();
-    	return jsonObject;
+		System.out.println("get Connection to server terminated");
+		JsonElement sr = new JsonParser().parse(serverResponse);
+		if(!sr.isJsonObject()) {
+			throw new Exception("Not a json Object."); 
+		}
+		JsonObject jsonObject = sr.getAsJsonObject();
+		return jsonObject;
+    }
+
+	public JsonArray gets(String command, Object obj) throws Exception {
+     	Future<String> response = es.submit(getCommandWithSocket(command, obj));
+		try {
+			// Blocking this thread until the server responds
+			serverResponse = response.get();
+			System.out.println("Response from server is: " + serverResponse);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		System.out.println("gets Connection to server terminated");
+		JsonElement sr = new JsonParser().parse(serverResponse);
+		if(!sr.isJsonArray()) {
+			throw new Exception("Not a json Array."); 
+		}
+		JsonArray jsonArray = sr.getAsJsonArray();
+		return jsonArray;
     }
     
     public void shutdown() {
