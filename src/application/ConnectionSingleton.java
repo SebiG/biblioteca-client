@@ -43,8 +43,10 @@ public class ConnectionSingleton {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
 		System.out.println("get Connection to server terminated");
+		if(serverResponse == null) {
+			throw new Exception("Null server response error!");
+		}
 		JsonElement sr = new JsonParser().parse(serverResponse);
 		if(!sr.isJsonObject()) {
 			throw new Exception("Not a json Object."); 
@@ -62,8 +64,10 @@ public class ConnectionSingleton {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
 		System.out.println("gets Connection to server terminated");
+		if(serverResponse == null) {
+			throw new Exception("Null server response error!");
+		}
 		JsonElement sr = new JsonParser().parse(serverResponse);
 		if(!sr.isJsonArray()) {
 			throw new Exception("Not a json Array."); 
