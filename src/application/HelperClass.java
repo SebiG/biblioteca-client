@@ -31,7 +31,7 @@ public class HelperClass {
 	public static void puts(String s) {
 		System.out.println(s);
 	}
-	
+		
 	//generic Observable List generator
 	public static <T> ObservableList<T> toObservableList(JsonArray serverResponse, Type tClass) {
 		ObservableList<T> list = FXCollections.observableArrayList();
