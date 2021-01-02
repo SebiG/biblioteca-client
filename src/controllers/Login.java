@@ -2,9 +2,6 @@ package controllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
@@ -12,7 +9,6 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import models.User;
 
-import java.io.IOException;
 import java.util.List;
 
 import com.google.gson.JsonObject;
@@ -54,48 +50,31 @@ public class Login {
 			e.printStackTrace();
 		}
 		System.out.println("Raspuns " + serverResponse);
+		
+		
 		if(serverResponse == null) {
 			infoLabel.setText("Null error (login)!");
 			return;
 		}
-
 		if(serverResponse.has("message")) {
 			infoLabel.setText(serverResponse.get("message").getAsString());
 		}
 		if(serverResponse.has("userRole")) {
+			// close login window
+			Stage loginStage = (Stage) btnLogin.getScene().getWindow();
+			loginStage.close();
+			
 			User u = new User();
 			u.setUserID(serverResponse.get("userID").getAsInt());
-			u.setUserName(serverResponse.get("userName").getAsString());
+			u.setUserName(serverResponse.get("userName").getAsString());		
 			if(serverResponse.get("userRole").getAsString().equals("user")) {
 				u.setRole("user");
-				this.openView("UserView.fxml", u);
+				UserView.run(u);
 			}
 			if(serverResponse.get("userRole").getAsString().equals("admin")) {
 				u.setRole("admin");
-//				this.openView("UserView.fxml", u);
+				//AdminView.run(u);
 			}
 		}
 	}
-	
-	private void openView(String viewName, User user) {
-        Parent root;
-        try {
-        	FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/" + viewName));
-            root = loader.load();
-            Stage stage = new Stage();
-            stage.setTitle("Interfata Biblioteca - " + user.getUserName());
-            stage.setScene(new Scene(root, 600, 400));
-            stage.setResizable(false);
-            stage.setUserData(user);
-            // close login window
-            Stage loginStage = (Stage) btnLogin.getScene().getWindow();
-            loginStage.close();
-            //open new view
-            stage.show();
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
-	}
-
 }
