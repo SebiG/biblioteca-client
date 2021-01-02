@@ -69,7 +69,6 @@ public class Book implements BookInterface {
 	
 	public Book(int bookID, String author, int stock, String title) {
 		super();
-		H.puts("Book constructor with argu");
 		this.bookID = bookID;
 		this.author = author;
 		this.stock = stock;

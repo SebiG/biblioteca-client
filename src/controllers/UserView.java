@@ -2,16 +2,8 @@ package controllers;
 
 import java.io.IOException;
 import java.util.Date;
-import java.util.List;
-
-//import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-
-import application.ConnectionSingleton;
 import application.G;
 import application.H;
-//import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

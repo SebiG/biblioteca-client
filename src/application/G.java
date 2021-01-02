@@ -18,7 +18,7 @@ public abstract class G {
 	}
 	
 	public static ObservableList<Record> getRecordsAsObservableList(String userID) {
-		return H.toObservableList(getRecordsFor(userID), Record.class);
+		return Adapters.recordsToObservableList(getRecordsFor(userID), Record.class);
 	}
 	
 	

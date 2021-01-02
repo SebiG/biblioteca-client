@@ -10,7 +10,7 @@
    <children>
       <TabPane prefHeight="400.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
-          <Tab text="List of books">
+          <Tab fx:id="ListTab" text="List of books">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
@@ -25,12 +25,21 @@
                      </children></AnchorPane>
             </content>
           </Tab>
-          <Tab text="Status">
+          <Tab fx:id="statusTab" text="Status">
             <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TableView fx:id="statusTable" layoutX="6.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                          <columns>
+                            <TableColumn fx:id="statusBookNameCol" prefWidth="323.0" text="Book name" />
+                              <TableColumn fx:id="dateCol" minWidth="0.0" prefWidth="135.0" text="Date" />
+                            <TableColumn fx:id="statusCol" prefWidth="122.0" text="Status" />
+                          </columns>
+                        </TableView>
+                     </children></AnchorPane>
             </content>
           </Tab>
-          <Tab text="Settings">
+          <Tab fx:id="settingstTab" text="Settings">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
             </content>

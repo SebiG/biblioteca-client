@@ -4,11 +4,37 @@ import java.util.Date;
 
 public class Record {
 	private int recordID;
-	private int state;
-	private User user1;
-	private User user2;
-	private Book book;
+	private String state;
+	private String bookName;
 	private Date date;
+	private String userID;
+	
+	public Record(int recordID, Integer state, String bookName, Date date, String userID) {
+		super();
+		this.recordID = recordID;
+		this.state = generateStateLabel(state);
+		this.bookName = bookName;
+		this.date = date;
+		this.userID = userID;
+	}
+	
+	private String generateStateLabel(Integer state) {
+		String label = null;
+		switch (state) {
+			case 1:
+				label = "Rezervata";
+				break;
+			case 2:
+				label = "Imprumutata";
+				break;
+			case 0:
+				label = "Returnata";
+				break;
+			default:
+				break;
+		}
+		return label;
+	}
 	
 	public int getRecordID() {
 		return recordID;
@@ -16,31 +42,28 @@ public class Record {
 	public void setRecordID(int recordID) {
 		this.recordID = recordID;
 	}
-	public int getState() {
+	public String getState() {
 		return state;
 	}
-	public void setState(int state) {
+	public void setState(String state) {
 		this.state = state;
 	}
-	public User getUser1() {
-		return user1;
+	public String getBookName() {
+		return bookName;
 	}
-	public User getUser2() {
-		return user2;
-	}
-	public void setUser2(User user2) {
-		this.user2 = user2;
-	}
-	public Book getBook() {
-		return book;
-	}
-	public void setBook(Book book) {
-		this.book = book;
+	public void setBookName(String bookName) {
+		this.bookName = bookName;
 	}
 	public Date getDate() {
 		return date;
 	}
 	public void setDate(Date date) {
 		this.date = date;
+	}
+	public String getUserID() {
+		return userID;
+	}
+	public void setUserID(String userID) {
+		this.userID = userID;
 	}
 }
