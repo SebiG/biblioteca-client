@@ -9,6 +9,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import application.ConnectionSingleton;
+import application.G;
 import application.H;
 //import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -67,20 +68,9 @@ public class UserView {
 	@FXML
 	void initialize() throws Exception {
 		H.puts("User interface is running!");
-		JsonObject obj = H.buildJsonObj(List.of("filter", "all"));
-		JsonArray serverResponse = ConnectionSingleton.getInstance().gets("getBooks", obj);
 		
-		if(serverResponse == null) {
-			throw new Exception("Null server response error!");
-		}
-		H.puts(serverResponse.toString());
-		initBookTable(H.toObservableList(serverResponse, Book.class));
-		
-		obj = H.buildJsonObj(List.of("userID", "2"));
-		serverResponse = ConnectionSingleton.getInstance().gets("getRecords", obj);
-		H.puts(serverResponse.toString());
-		initRecordsTable(H.toObservableList(serverResponse, Record.class));
-
+		initBookTable(G.getBooksAsObservableList());
+		initRecordsTable(G.getRecordsAsObservableList("2"));
 	}
 	
 	private void initBookTable(ObservableList<Book> observableList) {
