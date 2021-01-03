@@ -73,7 +73,7 @@ public class Login {
 			}
 			if(serverResponse.get("userRole").getAsString().equals("admin")) {
 				u.setRole("admin");
-				//AdminView.run(u);
+				AdminView.run(u);
 			}
 		}
 	}
