@@ -82,9 +82,10 @@ public class UserView {
 	}
 
 	private void initBookTableCells() {
-		statusBookNameCol.setCellValueFactory(new PropertyValueFactory<Record, String>("bookName"));
-		dateCol.setCellValueFactory(new PropertyValueFactory<Record, Date>("date"));
-		statusCol.setCellValueFactory(new PropertyValueFactory<Record, Integer>("state"));
+		bookNameCol.setCellValueFactory(cellData -> cellData.getValue().getTitleProperty());
+		authorCol.setCellValueFactory(cellData -> cellData.getValue().getAuthorProperty());
+		stockCol.setCellValueFactory(cellData -> cellData.getValue().getStockProperty().asObject());
+		actionCol.setCellValueFactory(new PropertyValueFactory<Book, Button>("requestBtn"));
 	}
 
 	private void initRecordsTable(ObservableList<Record> observableList) {
@@ -94,10 +95,9 @@ public class UserView {
 	}
 
 	private void initRecordsTableCells() {
-		bookNameCol.setCellValueFactory(new PropertyValueFactory<Book, String>("title"));
-		authorCol.setCellValueFactory(new PropertyValueFactory<Book, String>("author"));
-		stockCol.setCellValueFactory(new PropertyValueFactory<Book, Integer>("stock"));
-		actionCol.setCellValueFactory(new PropertyValueFactory<Book, Button>("requestBtn"));
+		statusBookNameCol.setCellValueFactory(new PropertyValueFactory<Record, String>("bookName"));
+		dateCol.setCellValueFactory(new PropertyValueFactory<Record, Date>("date"));
+		statusCol.setCellValueFactory(new PropertyValueFactory<Record, Integer>("state"));
 	}
 
 	public static void run(User u) {

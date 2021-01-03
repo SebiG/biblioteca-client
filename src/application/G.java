@@ -8,19 +8,23 @@ import com.google.gson.JsonObject;
 import javafx.collections.ObservableList;
 import models.Book;
 import models.Record;
+import models.RecordForAdmin;
 
 //API calls
 public abstract class G {
 	static JsonObject obj;
 	
 	public static ObservableList<Book> getBooksAsObservableList() {
-		return H.toObservableList(getBooks(), Book.class);
+		return Adapters.booksToObservableList(getBooks());
 	}
 	
 	public static ObservableList<Record> getRecordsAsObservableList(String userID) {
-		return Adapters.recordsToObservableList(getRecordsFor(userID), Record.class);
+		return Adapters.recordsToObservableList(getRecordsFor(userID));
 	}
 	
+	public static ObservableList<RecordForAdmin> getRecordsForAdminAsObservableList(String userID) {
+		return Adapters.recordsForAdminToObservableList(getRecordsFor(userID));
+	}
 	
 	public static JsonArray getBooks() {
 		obj = H.buildJsonObj(List.of("filter", "all"));
@@ -43,5 +47,6 @@ public abstract class G {
 		}
 		return serverResponse;
 	}
+
 	
 }
