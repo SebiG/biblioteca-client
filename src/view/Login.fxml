@@ -10,8 +10,8 @@
 <AnchorPane prefHeight="200" prefWidth="300" style="-fx-background-color: #ccc;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.Login">
    <children>
       <Label fx:id="infoLabel" alignment="BOTTOM_LEFT" layoutX="30.0" layoutY="11.0" prefHeight="37.0" prefWidth="240.0" text="Demo users: bibliotecar and cititor, p: idem " textFill="#15054a" wrapText="true" AnchorPane.bottomAnchor="152.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="11.0" />
-      <TextField fx:id="userName" layoutX="30.0" layoutY="60.0" prefHeight="30.0" prefWidth="240.0" promptText="UserName" text="cititor" />
-      <PasswordField fx:id="password" layoutX="30.0" layoutY="103.0" prefHeight="30.0" prefWidth="240.0" promptText="Password" text="cititor" />
+      <TextField fx:id="userName" layoutX="30.0" layoutY="60.0" prefHeight="30.0" prefWidth="240.0" promptText="UserName" text="bibliotecar" />
+      <PasswordField fx:id="password" layoutX="30.0" layoutY="103.0" prefHeight="30.0" prefWidth="240.0" promptText="Password" text="bibliotecar" />
       <Button fx:id="btnLogin" layoutX="150.0" layoutY="146.0" mnemonicParsing="false" onAction="#onClickLogin" prefHeight="30.0" prefWidth="120.0" text="Login" textAlignment="CENTER" textFill="#350202">
          <font>
             <Font size="14.0" />

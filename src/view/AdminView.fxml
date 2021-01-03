@@ -20,7 +20,7 @@
                             <TableColumn fx:id="statusBookNameCol" prefWidth="230.0" text="Book name" />
                             <TableColumn fx:id="dateCol" minWidth="0.0" prefWidth="130.0" text="Date" />
                             <TableColumn fx:id="statusCol" prefWidth="100.0" text="Status" />
-                            <TableColumn fx:id="statusCol" prefWidth="100.0" text="Action" />
+                            <TableColumn fx:id="actionCol" prefWidth="100.0" text="Action" />
                           </columns>
                         </TableView>
                      </children></AnchorPane>

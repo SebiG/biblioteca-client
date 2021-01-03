@@ -18,7 +18,7 @@ public class Record {
 		this.userID = userID;
 	}
 	
-	private String generateStateLabel(Integer state) {
+	protected String generateStateLabel(Integer state) {
 		String label = null;
 		switch (state) {
 			case 1:
