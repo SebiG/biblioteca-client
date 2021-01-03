@@ -2,9 +2,11 @@ package controllers;
 
 import java.io.IOException;
 import java.util.Date;
+
 import application.G;
 import application.H;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -56,6 +58,14 @@ public class UserView {
 
     @FXML
     private Tab settingstTab;
+    
+    @FXML
+    private Button logoutBtn;
+
+    @FXML
+    void logoutUser(ActionEvent e) {
+    	H.logoutUser(e, logoutBtn);
+    }
         
 	@FXML
 	void initialize() throws Exception {
