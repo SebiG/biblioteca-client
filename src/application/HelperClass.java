@@ -8,10 +8,17 @@ import java.util.List;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+
 import com.google.gson.JsonElement;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.stage.Stage;
 
 public class HelperClass {
 
@@ -62,5 +69,26 @@ public class HelperClass {
 			list.add(obj);
 		}
 		return list;
+	}
+	
+	public static void loginWindow(Stage primaryStage, Class<? extends ClientMain> class1) {
+		try {
+			primaryStage.setResizable(false);
+			Parent root = FXMLLoader.load(class1.getResource("/view/Login.fxml"));
+			Scene scene = new Scene(root);
+			scene.getStylesheets().add(class1.getResource("/application/application.css").toExternalForm());
+			primaryStage.setScene(scene);
+			primaryStage.setTitle("Biblioteca Demo | Login");
+			primaryStage.show();
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public static void logoutUser(ActionEvent e, Button logoutBtn) {
+    	Stage logoutStage = (Stage) logoutBtn.getScene().getWindow();
+    	logoutStage.close();
+        Stage stage = new Stage();
+    	HelperClass.loginWindow(stage, ClientMain.class);
 	}
 }
