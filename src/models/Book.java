@@ -1,19 +1,12 @@
 package models;
 
 import java.util.List;
-
-import com.google.gson.JsonObject;
-import application.ConnectionSingleton;
-import application.H;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.scene.control.Button;
-import javafx.stage.Stage;
-interface BookInterface {
-	public void initialize();
-}
-public class Book implements BookInterface {
+
+public class Book {
 	private SimpleIntegerProperty bookID = new SimpleIntegerProperty();
 	private SimpleStringProperty author = new SimpleStringProperty();
 	private SimpleIntegerProperty stock = new SimpleIntegerProperty();
@@ -27,51 +20,18 @@ public class Book implements BookInterface {
 		return requestBtn;
 	}
 
-	public void initRequestBtn() {
-		this.requestBtn = new Button();
-		this.requestBtn.setText("Request");
-		if(stock.get() < 1) this.requestBtn.setDisable(true);
-		this.requestBtn.setOnAction(e -> {
-			H.puts(stock.toString());
-			this.stockSubstract(1);
-			H.puts(stock.toString());
-			
-			Button btn = (Button) e.getSource();
-			if(stock.get() < 1) this.requestBtn.setDisable(true);
-
-			Stage stage = (Stage) btn.getScene().getWindow();
-			User u = (User) stage.getUserData();
-			JsonObject serverResponse = null;
-			try {
-				JsonObject obj = H.buildJsonObj(List.of(
-						"bookID", getBookIDProperty().asString().get(),
-						"userID", Integer.toString(u.getUserID())
-						));
-				serverResponse = ConnectionSingleton.getInstance().get("reserved", obj);
-			} catch (Exception e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-			if(serverResponse.has("message") && serverResponse.get("message").getAsString().equals("ok")) {
-				//TODO display to user that the request succeeded
-			} else {
-				this.stockAdd(1);
-			}
-		});
+	public void setRequestBtn(Button btn) {
+		this.requestBtn = btn;
 	}
-
-	private void stockAdd(int i) {
+	
+	public void stockAdd(int i) {
 		stock.set(stock.add(i).get());
 	}
 
-	private void stockSubstract(int i) {
+	public void stockSubstract(int i) {
 		stock.set(stock.subtract(i).get());
 	}
 
-	public void initialize() {
-		initRequestBtn();
-	}
-	
 	public Book() {
 		super();
 	}
@@ -82,7 +42,6 @@ public class Book implements BookInterface {
 		this.author.set(author);
 		this.stock.set(stock);
 		this.title.set(title);
-		this.initialize();
 	}
 
 	public SimpleIntegerProperty getBookIDProperty() {

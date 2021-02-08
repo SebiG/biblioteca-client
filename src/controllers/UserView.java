@@ -2,7 +2,11 @@ package controllers;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.List;
 
+import com.google.gson.JsonObject;
+
+import application.ConnectionSingleton;
 import application.G;
 import application.H;
 import javafx.collections.ObservableList;
@@ -22,6 +26,8 @@ import models.Record;
 import models.User;
 
 public class UserView {
+	
+	static Stage stage;
 	
 	@FXML
 	private Tab ListTab;
@@ -54,7 +60,7 @@ public class UserView {
     private TableColumn<Record, Date> dateCol;
 
     @FXML
-    private TableColumn<Record, Integer> statusCol;
+    private TableColumn<Record, String> statusCol;
 
     @FXML
     private Tab settingstTab;
@@ -72,13 +78,45 @@ public class UserView {
 		H.puts("User interface is running!");
 		
 		initBookTable(G.getBooksAsObservableList());
-		initRecordsTable(G.getRecordsAsObservableList("2"));
+		initRecordsTable(G.getRecordsAsObservableList("All"));
 	}
 	
 	private void initBookTable(ObservableList<Book> observableList) {
 		H.puts(observableList.toString());
 		initBookTableCells();
+		observableList = addRowActionsForBook(observableList);
 		listOfBooksTable.setItems(observableList);
+	}
+
+	private ObservableList<Book> addRowActionsForBook(ObservableList<Book> observableList) {
+		observableList.forEach(book -> {
+			Button btn = new Button();
+			btn.setText("Request");
+			if(book.getStock() < 1) btn.setDisable(true);
+			btn.setOnAction(e -> {
+				book.stockSubstract(1);
+				if(book.getStock() < 1) btn.setDisable(true);
+				User u = (User) stage.getUserData();
+				JsonObject serverResponse = null;
+				try {
+					JsonObject obj = H.buildJsonObj(List.of(
+						"bookID", book.getBookIDProperty().asString().get(),
+						"userID", Integer.toString(u.getUserID())
+						));
+					serverResponse = ConnectionSingleton.getInstance().get("reserved", obj);
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				if(serverResponse.has("message") && serverResponse.get("message").getAsString().equals("ok")) {
+					initRecordsTable(G.getRecordsAsObservableList("All"));
+				} else {
+					book.stockAdd(1);
+				}
+			});
+			book.setRequestBtn(btn);
+		});
+		return observableList;
 	}
 
 	private void initBookTableCells() {
@@ -109,7 +147,7 @@ public class UserView {
         try {
         	FXMLLoader loader = new FXMLLoader(UserView.class.getResource("/view/" + viewName));
             root = loader.load();
-            Stage stage = new Stage();
+            stage = new Stage();
             stage.setTitle("Interfata Biblioteca - " + user.getUserName());
             stage.setScene(new Scene(root, 600, 400));
             stage.setResizable(false);
