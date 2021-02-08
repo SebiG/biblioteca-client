@@ -6,9 +6,9 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import javafx.collections.ObservableList;
-import models.Book;
-import models.Record;
-import models.RecordForAdmin;
+import view.models.Book;
+import view.models.Record;
+import view.models.RecordForAdmin;
 
 //API calls
 public abstract class G {

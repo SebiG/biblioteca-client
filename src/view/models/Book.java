@@ -1,4 +1,4 @@
-package models;
+package view.models;
 
 import java.util.List;
 import javafx.beans.property.SimpleIntegerProperty;

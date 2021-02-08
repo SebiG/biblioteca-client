@@ -10,9 +10,9 @@ import com.google.gson.JsonObject;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import models.Book;
-import models.Record;
-import models.RecordForAdmin;
+import view.models.Book;
+import view.models.Record;
+import view.models.RecordForAdmin;
 
 public abstract class Adapters {
 		public static ObservableList<Book> booksToObservableList(JsonArray books) {

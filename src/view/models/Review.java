@@ -1,4 +1,4 @@
-package models;
+package view.models;
 
 public class Review {
 	private int reviewID;

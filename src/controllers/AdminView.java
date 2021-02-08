@@ -24,9 +24,8 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-import models.Record;
-import models.RecordForAdmin;
-import models.User;
+import view.models.RecordForAdmin;
+import view.models.User;
 
 
 public class AdminView {

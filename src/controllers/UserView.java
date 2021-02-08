@@ -21,9 +21,9 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-import models.Book;
-import models.Record;
-import models.User;
+import view.models.Book;
+import view.models.Record;
+import view.models.User;
 
 public class UserView {
 	
