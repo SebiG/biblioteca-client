@@ -2,9 +2,14 @@ package controllers;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.List;
 
+import com.google.gson.JsonObject;
+
+import application.ConnectionSingleton;
 import application.G;
 import application.H;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -19,11 +24,13 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import models.Record;
 import models.RecordForAdmin;
 import models.User;
 
 
 public class AdminView {
+	static Stage stage;
 	
     @FXML
     private TableView<RecordForAdmin> statusTable;
@@ -35,7 +42,7 @@ public class AdminView {
     private TableColumn<RecordForAdmin, Date> dateCol;
 
     @FXML
-    private TableColumn<RecordForAdmin, Integer> statusCol;
+    private TableColumn<RecordForAdmin, String> statusCol;
     
     @FXML
     private TableColumn<RecordForAdmin, ComboBox<String>> actionCol;
@@ -60,15 +67,52 @@ public class AdminView {
 	private void initRecordsTableForAdmin(ObservableList<RecordForAdmin> observableList) {
 		H.puts(observableList.toString());
 		initRecordsTableCells();
+		observableList = addRowActionsForRecords(observableList);
 		statusTable.setItems(observableList);
+	}
+
+	private ObservableList<RecordForAdmin> addRowActionsForRecords(ObservableList<RecordForAdmin> observableList) {
+		observableList.forEach(record -> {
+			ObservableList<String> options = 
+				    FXCollections.observableArrayList(
+				        "Rezervata",
+				        "Imprumutata",
+				        "Returnata"
+		    );
+			
+			ComboBox<String> cbx = new ComboBox<String>(options);
+			cbx.setValue(record.getState());
+			
+			cbx.setOnAction(e -> {
+				JsonObject serverResponse = null;
+				User u = (User) stage.getUserData();
+				try {
+					JsonObject obj = H.buildJsonObj(List.of(
+						"recordID", String.valueOf(record.getRecordID()),
+						"userID", Integer.toString(u.getUserID()),
+						"state", record.convertLabelToID(cbx.getValue()).toString()
+						));
+					serverResponse = ConnectionSingleton.getInstance().get("setStateForRecord", obj);
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				if(serverResponse.has("message") && serverResponse.get("message").getAsString().equals("ok")) {
+					record.setState(cbx.getValue());
+				} else {
+					// TODO Show user an error message
+				}
+			});  
+			record.setChangeStateCbx(cbx);
+		});
+		return observableList;
 	}
 
 	private void initRecordsTableCells() {
 		statusBookNameCol.setCellValueFactory(new PropertyValueFactory<RecordForAdmin, String>("bookName"));
 		dateCol.setCellValueFactory(new PropertyValueFactory<RecordForAdmin, Date>("date"));
-		statusCol.setCellValueFactory(new PropertyValueFactory<RecordForAdmin, Integer>("state"));
-		actionCol.setCellValueFactory(new PropertyValueFactory<RecordForAdmin, ComboBox<String>>("changeState"));
-//		statusBookNameCol.setCellValueFactory(cellData -> cellData.getValue().getBookName());
+		statusCol.setCellValueFactory(cellData -> cellData.getValue().getStateProperty());
+		actionCol.setCellValueFactory(new PropertyValueFactory<RecordForAdmin, ComboBox<String>>("changeStateCbx"));
 	}
 
 	public static void run(User u) {
@@ -80,7 +124,7 @@ public class AdminView {
         try {
         	FXMLLoader loader = new FXMLLoader(UserView.class.getResource("/view/" + viewName));
             root = loader.load();
-            Stage stage = new Stage();
+            stage = new Stage();
             stage.setTitle("Interfata Administrator Biblioteca - " + user.getUserName());
             stage.setScene(new Scene(root, 600, 400));
             stage.setResizable(false);

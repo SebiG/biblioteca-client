@@ -135,7 +135,7 @@ public class UserView {
 	private void initRecordsTableCells() {
 		statusBookNameCol.setCellValueFactory(new PropertyValueFactory<Record, String>("bookName"));
 		dateCol.setCellValueFactory(new PropertyValueFactory<Record, Date>("date"));
-		statusCol.setCellValueFactory(new PropertyValueFactory<Record, Integer>("state"));
+		statusCol.setCellValueFactory(cellData -> cellData.getValue().getStateProperty());
 	}
 
 	public static void run(User u) {
