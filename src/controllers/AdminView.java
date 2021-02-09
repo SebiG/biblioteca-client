@@ -22,6 +22,7 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TableColumn;
 
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import view.models.RecordForAdmin;
@@ -45,6 +46,23 @@ public class AdminView {
     
     @FXML
     private TableColumn<RecordForAdmin, ComboBox<String>> actionCol;
+    
+    @FXML // fx:id="formBookTitle"
+    private TextField formBookTitle;
+
+    @FXML // fx:id="formBookAuthors"
+    private TextField formBookAuthors;
+
+    @FXML // fx:id="formBookStock"
+    private TextField formBookStock;
+
+    @FXML // fx:id="formNewBookSubmit"
+    private Button formNewBookSubmit;
+    
+    @FXML
+    void addNewBook(ActionEvent event) {
+
+    }
 	
     @FXML
     private Tab settingstTab;
