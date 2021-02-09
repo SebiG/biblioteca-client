@@ -7,20 +7,20 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.UserView">
+<AnchorPane prefHeight="400.0" prefWidth="650.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.UserView">
    <children>
-      <TabPane prefHeight="400.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE">
+      <TabPane prefHeight="400.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <tabs>
           <Tab fx:id="ListTab" text="List of books">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <TableView fx:id="listOfBooksTable" layoutY="36.0" prefHeight="335.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                        <TableView fx:id="listOfBooksTable" layoutY="36.0" prefHeight="335.0" prefWidth="650.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                           <columns>
-                            <TableColumn fx:id="bookNameCol" editable="false" prefWidth="256.0" text="Book Name" />
-                              <TableColumn fx:id="authorCol" prefWidth="166.0" text="Author" />
-                              <TableColumn fx:id="stockCol" editable="false" prefWidth="63.0" text="Stock" />
-                            <TableColumn fx:id="actionCol" editable="false" minWidth="0.0" prefWidth="114.0" text="Action" />
+                            <TableColumn fx:id="bookNameCol" editable="false" maxWidth="250.0" prefWidth="231.0" resizable="false" text="Book Name" />
+                              <TableColumn fx:id="authorCol" maxWidth="219.0" prefWidth="198.0" resizable="false" text="Author" />
+                              <TableColumn fx:id="stockCol" editable="false" maxWidth="77.0" prefWidth="77.0" resizable="false" text="Stock" />
+                            <TableColumn fx:id="actionCol" editable="false" maxWidth="71.0" minWidth="0.0" prefWidth="71.0" resizable="false" text="Action" />
                           </columns>
                         </TableView>
                      </children></AnchorPane>
