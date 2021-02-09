@@ -6,6 +6,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import view.models.User;
 
@@ -35,7 +36,18 @@ public class Login {
 	void initialize() {
 		System.out.println("Login is running!");
 	}
-
+	
+    @FXML
+    void changeUser(MouseEvent event) {
+    	if(userName.getText().equals("cititor")) {
+    		userName.setText("bibliotecar");
+    		password.setText("bibliotecar");
+    	} else {
+    		userName.setText("cititor");
+    		password.setText("cititor");
+    	}
+    }
+	
 	@FXML
 	private void onClickLogin(ActionEvent event) {
 		System.out.println("Login btn click");
