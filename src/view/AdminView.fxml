@@ -38,6 +38,11 @@
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
+                        <Label fx:id="addBookFormTitle" layoutX="82.0" layoutY="46.0" prefHeight="24.0" prefWidth="540.0" text="Add a book to library:" textFill="#243546" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
                         <GridPane alignment="CENTER_LEFT" hgap="2.0" layoutX="89.0" layoutY="75.0" style="-fx-background-color: #f2f2f2; -fx-background-radius: 5;" vgap="2.0" AnchorPane.bottomAnchor="175.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="100.0">
                           <columnConstraints>
                             <ColumnConstraints halignment="LEFT" hgrow="NEVER" maxWidth="259.0" minWidth="80.0" prefWidth="149.0" />
@@ -84,11 +89,6 @@
                               <TextField fx:id="formBookStock" layoutX="166.0" layoutY="44.0" prefHeight="38.0" prefWidth="395.0" promptText="Number of books here" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                            </children>
                         </GridPane>
-                        <Label layoutX="82.0" layoutY="46.0" prefHeight="24.0" prefWidth="540.0" text="Add a book to library:" textFill="#243546" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0">
-                           <font>
-                              <Font size="18.0" />
-                           </font>
-                        </Label>
                         <Button fx:id="formNewBookSubmit" layoutX="414.0" layoutY="253.0" mnemonicParsing="false" onAction="#addNewBook" prefHeight="30.0" prefWidth="150.0" text="Add" textFill="#393232" AnchorPane.rightAnchor="35.0">
                            <font>
                               <Font name="System Bold" size="12.0" />

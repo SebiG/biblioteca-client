@@ -4,8 +4,10 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
+import application.Adapters;
 import application.ConnectionSingleton;
 import application.G;
 import application.H;
@@ -18,6 +20,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TableColumn;
 
@@ -25,6 +28,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import view.models.Book;
 import view.models.RecordForAdmin;
 import view.models.User;
 
@@ -58,10 +62,26 @@ public class AdminView {
 
     @FXML // fx:id="formNewBookSubmit"
     private Button formNewBookSubmit;
+
+    @FXML
+    private Label addBookFormTitle;
     
     @FXML
     void addNewBook(ActionEvent event) {
-
+    	JsonArray response = G.putBook(List.of(
+    		"title", formBookTitle.getText(),
+    		"authors", formBookAuthors.getText(),
+    		"stock", formBookStock.getText() //validate number int
+    	));
+    	Book book = Adapters.adaptBook(response.get(0).getAsJsonObject()); //TODO: check if response ok
+    	System.out.println(book);
+    	//TODO: add book to observable list
+    	
+    	//on success
+    	formBookStock.setText("");
+    	formBookTitle.setText("");
+    	formBookAuthors.setText("");
+    	addBookFormTitle.setText("Book added, add new book:");
     }
 	
     @FXML

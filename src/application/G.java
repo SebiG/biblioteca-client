@@ -48,5 +48,14 @@ public abstract class G {
 		return serverResponse;
 	}
 
-	
+	public static JsonArray putBook(List<String> book) {
+		obj = H.buildJsonObj(book);
+		JsonArray serverResponse = null;
+		try {
+			serverResponse = ConnectionSingleton.getInstance().gets("putBook", obj);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return serverResponse;
+	}
 }

@@ -15,21 +15,24 @@ import view.models.Record;
 import view.models.RecordForAdmin;
 
 public abstract class Adapters {
-		public static ObservableList<Book> booksToObservableList(JsonArray books) {
+	public static ObservableList<Book> booksToObservableList(JsonArray books) {
 		ObservableList<Book> list = FXCollections.observableArrayList();
 		books.forEach(r -> {
 			JsonObject jb = r.getAsJsonObject();
 			list.add(
-				new Book(
-					jb.get("bookID").getAsInt(), 
-					jb.get("author").getAsString(), 
-					jb.get("stock").getAsInt(), 
-					jb.get("title").getAsString()
-					)
+				adaptBook(jb)
 			);
 		});
 		
 		return list;
+	}
+	public static Book adaptBook(JsonObject jb) {
+		return new Book(
+				jb.get("bookID").getAsInt(), 
+				jb.get("author").getAsString(), 
+				jb.get("stock").getAsInt(), 
+				jb.get("title").getAsString()
+				);
 	}
 	public static ObservableList<Record> recordsToObservableList(JsonArray records) {
 		ObservableList<Record> list = FXCollections.observableArrayList();
