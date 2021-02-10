@@ -20,6 +20,7 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import view.models.Book;
 import view.models.Record;
@@ -45,7 +46,7 @@ public class UserView {
     private TableColumn<Book, Integer> stockCol;
 
     @FXML
-    private TableColumn<Book, Button> actionCol;
+    private TableColumn<Book, HBox> actionCol;
 
     @FXML
     private Tab statusTab;
@@ -90,40 +91,53 @@ public class UserView {
 
 	private ObservableList<Book> addRowActionsForBook(ObservableList<Book> observableList) {
 		observableList.forEach(book -> {
-			Button btn = new Button();
-			btn.setText("Request");
-			if(book.getStock() < 1) btn.setDisable(true);
-			btn.setOnAction(e -> {
-				book.stockSubstract(1);
-				if(book.getStock() < 1) btn.setDisable(true);
-				User u = (User) stage.getUserData();
-				JsonObject serverResponse = null;
-				try {
-					JsonObject obj = H.buildJsonObj(List.of(
-						"bookID", book.getBookIDProperty().asString().get(),
-						"userID", Integer.toString(u.getUserID())
-						));
-					serverResponse = ConnectionSingleton.getInstance().get("reserved", obj);
-				} catch (Exception e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				if(serverResponse.has("message") && serverResponse.get("message").getAsString().equals("ok")) {
-					initRecordsTable(G.getRecordsAsObservableList("All"));
-				} else {
-					book.stockAdd(1);
-				}
-			});
-			book.setRequestBtn(btn);
+			Button reqbtn = new Button();
+			reqbtn.setText("Request");
+			Button revbtn = new Button();
+			revbtn.setText("Review");
+			requestBtnForBook(book, reqbtn);
+			openReviewsForBookBtn(book, revbtn);
+			HBox actions = new HBox(reqbtn, revbtn);
+			book.setActions(actions);
 		});
 		return observableList;
 	}
 
+	private void requestBtnForBook(Book book, Button reqbtn) {
+		if(book.getStock() < 1) reqbtn.setDisable(true);
+		reqbtn.setOnAction(e -> {
+			book.stockSubstract(1);
+			if(book.getStock() < 1) reqbtn.setDisable(true);
+			User u = (User) stage.getUserData();
+			JsonObject serverResponse = null;
+			try {
+				JsonObject obj = H.buildJsonObj(List.of(
+					"bookID", book.getBookIDProperty().asString().get(),
+					"userID", Integer.toString(u.getUserID())
+					));
+				serverResponse = ConnectionSingleton.getInstance().get("reserved", obj);
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			if(serverResponse.has("message") && serverResponse.get("message").getAsString().equals("ok")) {
+				initRecordsTable(G.getRecordsAsObservableList("All"));
+			} else {
+				book.stockAdd(1);
+			}
+		});
+		book.setRequestBtn(reqbtn);
+	}
+	
+	private void openReviewsForBookBtn(Book book, Button revbtn) {
+		
+	}
+	 
 	private void initBookTableCells() {
 		bookNameCol.setCellValueFactory(cellData -> cellData.getValue().getTitleProperty());
 		authorCol.setCellValueFactory(cellData -> cellData.getValue().getAuthorProperty());
 		stockCol.setCellValueFactory(cellData -> cellData.getValue().getStockProperty().asObject());
-		actionCol.setCellValueFactory(new PropertyValueFactory<Book, Button>("requestBtn"));
+		actionCol.setCellValueFactory(new PropertyValueFactory<Book, HBox>("actions"));
 	}
 
 	private void initRecordsTable(ObservableList<Record> observableList) {

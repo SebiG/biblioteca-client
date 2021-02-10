@@ -5,6 +5,7 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.scene.control.Button;
+import javafx.scene.layout.HBox;
 
 public class Book {
 	private SimpleIntegerProperty bookID = new SimpleIntegerProperty();
@@ -15,6 +16,8 @@ public class Book {
 	private List<Review> reviews;
 
 	private Button requestBtn;
+	private Button reviewViewBtn;
+	private HBox actions;
 	
 	public Button getRequestBtn() {
 		return requestBtn;
@@ -101,6 +104,22 @@ public class Book {
 
 	public void setReviews(List<Review> reviews) {
 		this.reviews = reviews;
+	}
+
+	public Button getReviewViewBtn() {
+		return reviewViewBtn;
+	}
+
+	public void setReviewViewBtn(Button reviewViewBtn) {
+		this.reviewViewBtn = reviewViewBtn;
+	}
+
+	public HBox getActions() {
+		return actions;
+	}
+
+	public void setActions(HBox actions) {
+		this.actions = actions;
 	}
 
 }
