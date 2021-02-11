@@ -58,4 +58,19 @@ public abstract class G {
 		}
 		return serverResponse;
 	}
+
+	public static ObservableList<String> reviewsToStringAsObservableList(int bookID) {
+		return Adapters.reviewsToStringAsObservableList(getReviewsFor(bookID));
+	}
+
+	public static JsonArray getReviewsFor(int bookID) {
+		obj = H.buildJsonObj(List.of("bookID", String.valueOf(bookID)));
+		JsonArray serverResponse = null;
+		try {
+			serverResponse = ConnectionSingleton.getInstance().gets("getReviewsForBook", obj);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return serverResponse;
+	}
 }

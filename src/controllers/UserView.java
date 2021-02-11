@@ -130,7 +130,9 @@ public class UserView {
 	}
 	
 	private void openReviewsForBookBtn(Book book, Button revbtn) {
-		
+		revbtn.setOnAction(e -> {
+			Reviews.run(book);
+		});
 	}
 	 
 	private void initBookTableCells() {
@@ -163,7 +165,7 @@ public class UserView {
             root = loader.load();
             stage = new Stage();
             stage.setTitle("Interfata Biblioteca - " + user.getUserName());
-            stage.setScene(new Scene(root, 600, 400));
+            stage.setScene(new Scene(root, 650, 400));
             stage.setResizable(false);
             stage.setUserData(user);
             //open new view

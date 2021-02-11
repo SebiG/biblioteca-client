@@ -2,8 +2,11 @@ package application;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Locale;
+import java.util.Set;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -13,6 +16,7 @@ import javafx.collections.ObservableList;
 import view.models.Book;
 import view.models.Record;
 import view.models.RecordForAdmin;
+import view.models.Review;
 
 public abstract class Adapters {
 	public static ObservableList<Book> booksToObservableList(JsonArray books) {
@@ -82,4 +86,44 @@ public abstract class Adapters {
 		}
 		return date;
 	}
+	
+	public static ObservableList<Review> reviewsToObservableList(JsonArray reviews) {
+		ObservableList<Review> list = FXCollections.observableArrayList();
+		reviews.forEach(r -> {
+			JsonObject jr = r.getAsJsonObject();
+			Set<String> keys = jr.keySet();
+			Set<String> k = new HashSet<>(Arrays.asList("reviewID", "user", "book", "review"));
+			if(keys.equals(k)) {
+				list.add(
+					new Review(
+						jr.get("reviewID").getAsInt(), 
+						jr.get("book").getAsJsonObject().get("bookID").getAsInt(), 
+						jr.get("user").getAsJsonObject().get("userID").getAsInt(),
+						jr.get("user").getAsJsonObject().get("userName").getAsString(),
+						jr.get("review").getAsString() 
+					)
+				);		
+			}
+		});
+		
+		return list;
+	}
+	
+	public static ObservableList<String> reviewsToStringAsObservableList(JsonArray reviews) {
+		ObservableList<String> list = FXCollections.observableArrayList();
+		reviews.forEach(r -> {
+			JsonObject jr = r.getAsJsonObject();
+			Set<String> keys = jr.keySet();
+			Set<String> k = new HashSet<>(Arrays.asList("reviewID", "user", "book", "review"));
+			if(keys.equals(k)) {
+				list.add(
+					jr.get("review").getAsString() + ", by " + 
+					jr.get("user").getAsJsonObject().get("userName").getAsString()
+				);		
+			}
+		});
+		
+		return list;
+	}
+	
 }
