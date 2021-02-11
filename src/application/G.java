@@ -73,4 +73,15 @@ public abstract class G {
 		}
 		return serverResponse;
 	}
+
+	public static JsonArray putReview(List<String> review) {
+		obj = H.buildJsonObj(review);
+		JsonArray serverResponse = null;
+		try {
+			serverResponse = ConnectionSingleton.getInstance().gets("putReviewForBook", obj);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return serverResponse;
+	}
 }

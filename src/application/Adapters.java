@@ -117,13 +117,17 @@ public abstract class Adapters {
 			Set<String> k = new HashSet<>(Arrays.asList("reviewID", "user", "book", "review"));
 			if(keys.equals(k)) {
 				list.add(
-					jr.get("review").getAsString() + ", by " + 
-					jr.get("user").getAsJsonObject().get("userName").getAsString()
+					adaptReviewAsString(jr)
 				);		
 			}
 		});
 		
 		return list;
 	}
+	
+	public static String adaptReviewAsString(JsonObject jr) {
+		return jr.get("review").getAsString() + ", by " + 
+		jr.get("user").getAsJsonObject().get("userName").getAsString();
+	};
 	
 }

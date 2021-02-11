@@ -131,7 +131,8 @@ public class UserView {
 	
 	private void openReviewsForBookBtn(Book book, Button revbtn) {
 		revbtn.setOnAction(e -> {
-			Reviews.run(book);
+			User u = (User) stage.getUserData();
+			Reviews.run(book, u);
 		});
 	}
 	 
